@@ -10,6 +10,8 @@ public class Card {
 		this.number = number;
 		if (number > 10) {
 			this.score = 10;
+		} else if (number == 1) {
+			this.score = 11;
 		} else {
 			this.score = number;
 		}
