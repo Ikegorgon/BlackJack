@@ -30,6 +30,8 @@ public class Blackjack {
 		Collections.shuffle(deck);
 		Collections.shuffle(deck);
 		Collections.shuffle(deck);
+		Collections.shuffle(deck);
+		Collections.shuffle(deck);
 //		for (int i = 0; i < 52; i++) {
 //			System.out.print(deck.get(i).toFile() + " ");
 //		}
@@ -44,14 +46,14 @@ public class Blackjack {
 		deck.remove(0);
 		house.add(deck.get(0));
 		deck.remove(0);
-		for (int i = 0; i < house.size(); i++) {
-			System.out.print("House " + house.get(i).toFile() + " ");
-		}
-		System.out.println("");
-		for (int i = 0; i < player.size(); i++) {
-			System.out.print("Player " + player.get(i).toFile() + " ");
-		}
-		System.out.println("");
+//		for (int i = 0; i < house.size(); i++) {
+//			System.out.print("House " + house.get(i).toFile() + " ");
+//		}
+//		System.out.println("");
+//		for (int i = 0; i < player.size(); i++) {
+//			System.out.print("Player " + player.get(i).toFile() + " ");
+//		}
+//		System.out.println("");
 //		for (int i = 0; i < deck.size(); i++) {
 //			System.out.print(deck.get(i).toFile() + " ");
 //		}
