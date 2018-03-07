@@ -19,11 +19,6 @@ public class Blackjack {
 			deck.add(new Card("diamonds", i));
 			deck.add(new Card("hearts", i));
 		}
-//		for (int i = 0; i < 52; i++) {
-//			System.out.print(deck.get(i).toFile() + " ");
-//		}
-//		System.out.println("");
-
 		return deck;
 	}
 	public void shuffleDeck() {
@@ -32,10 +27,11 @@ public class Blackjack {
 		Collections.shuffle(deck);
 		Collections.shuffle(deck);
 		Collections.shuffle(deck);
-//		for (int i = 0; i < 52; i++) {
-//			System.out.print(deck.get(i).toFile() + " ");
-//		}
-//		System.out.println("");
+		Collections.shuffle(deck);
+		Collections.shuffle(deck);
+		Collections.shuffle(deck);
+		Collections.shuffle(deck);
+		Collections.shuffle(deck);
 	}
 	public void dealDeck() {
 		player.add(deck.get(0));
@@ -46,18 +42,6 @@ public class Blackjack {
 		deck.remove(0);
 		house.add(deck.get(0));
 		deck.remove(0);
-//		for (int i = 0; i < house.size(); i++) {
-//			System.out.print("House " + house.get(i).toFile() + " ");
-//		}
-//		System.out.println("");
-//		for (int i = 0; i < player.size(); i++) {
-//			System.out.print("Player " + player.get(i).toFile() + " ");
-//		}
-//		System.out.println("");
-//		for (int i = 0; i < deck.size(); i++) {
-//			System.out.print(deck.get(i).toFile() + " ");
-//		}
-//		System.out.println("");
 	}
 	public void reset() {
 		deck.clear();
