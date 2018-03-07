@@ -38,6 +38,7 @@ public class BlackjackPanel extends JPanel {
 	private JButton nextHand;
 	private JLabel background;
 	private JLabel resultLabel;
+	private JLabel loseIcon;
 	private String resource;
 	private int bet;
 	private boolean stand;
@@ -90,7 +91,7 @@ public class BlackjackPanel extends JPanel {
 		appLayout.putConstraint(SpringLayout.WEST, playerCard2, 0, SpringLayout.WEST, houseCard2);
 		moneyIcon = new JLabel("", new ImageIcon(getClass()
 				.getResource("/blackjack/view/images/MoneyF1.png")), SwingConstants.CENTER);
-		moneyAmount = new JLabel("100");
+		moneyAmount = new JLabel("300");
 		moneyAmount.setBorder(new LineBorder(new Color(0, 0, 0)));
 		appLayout.putConstraint(SpringLayout.WEST, moneyAmount, 0, SpringLayout.WEST, moneyIcon);
 		appLayout.putConstraint(SpringLayout.SOUTH, moneyAmount, -5, SpringLayout.NORTH, moneyIcon);
@@ -103,7 +104,7 @@ public class BlackjackPanel extends JPanel {
 		appLayout.putConstraint(SpringLayout.EAST, moneyBet, 1, SpringLayout.EAST, moneyIcon);
 		moneyBet.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		moneyBet.setToolTipText("Amount of money you’re betting");
-		moneyBet.setModel(new SpinnerNumberModel(0, 0, Integer.parseInt(moneyAmount.getText()), 10));
+		moneyBet.setModel(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 10));
 		appLayout.putConstraint(SpringLayout.SOUTH, moneyBet, -5, SpringLayout.NORTH, moneyAmount);
 		betButton = new JButton("Bet");
 		appLayout.putConstraint(SpringLayout.WEST, betButton, -5, SpringLayout.WEST, moneyIcon);
@@ -191,6 +192,11 @@ public class BlackjackPanel extends JPanel {
 		appLayout.putConstraint(SpringLayout.EAST, resultLabel, -20, SpringLayout.EAST, this);
 		resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		resultLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		loseIcon = new JLabel(new ImageIcon(getClass()
+				.getResource("/blackjack/view/images/lose.png")));
+		loseIcon.setEnabled(false);
+		appLayout.putConstraint(SpringLayout.NORTH, loseIcon, 150, SpringLayout.NORTH, this);
+		appLayout.putConstraint(SpringLayout.WEST, loseIcon, 125, SpringLayout.WEST, this);
 		houseDeck = new ArrayList<JLabel>();
 		playerDeck = new ArrayList<JLabel>();
 		houseDeck.add(houseCard1);
@@ -207,6 +213,7 @@ public class BlackjackPanel extends JPanel {
 		this.setLayout(appLayout);
 		this.add(name);
 		this.add(newGame);
+		this.add(loseIcon);
 		this.add(resultLabel);
 		this.add(playerScore);
 		this.add(houseScore);
@@ -223,6 +230,7 @@ public class BlackjackPanel extends JPanel {
 		this.add(nextHand);
 		this.add(pot);
 		this.add(background);
+
 		
 		setupStart();
 	}
@@ -242,7 +250,6 @@ public class BlackjackPanel extends JPanel {
 				blackjack.reset();
 				blackjack.setupDeck();
 				blackjack.shuffleDeck();
-//				blackjack.dealDeck();
 				resetBoard();
 				resetMoney();
 			}
@@ -252,10 +259,6 @@ public class BlackjackPanel extends JPanel {
 				if (bet > 0 && !stand) {
 					blackjack.getPlayerDeck().add(blackjack.getDeck().get(0));
 					blackjack.getDeck().remove(0);
-//					for (int i = 0; i < blackjack.getPlayerDeck().size(); i++) {
-//						System.out.print("Player " + blackjack.getPlayerDeck().get(i).toFile() + " ");
-//					}
-//					System.out.println("");
 					updateBoard();
 				}
 			}
@@ -271,8 +274,13 @@ public class BlackjackPanel extends JPanel {
 		});
 		betButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent click) {
+				while (Integer.parseInt(moneyBet.getValue().toString()) > Integer.parseInt(moneyAmount.getText())) {
+					moneyBet.setValue(0);
+				}
 				if (bet == 0) {
-					if (Integer.parseInt(moneyBet.getValue().toString()) > 0) {
+					if (Integer.parseInt(moneyBet.getValue().toString()) > 0 
+							&& Integer.parseInt(moneyBet.getValue().toString()) <= 
+							Integer.parseInt(moneyAmount.getText())) {
 						pot.setText(moneyBet.getValue().toString());
 						int money = Integer.parseInt(moneyAmount.getText());
 						money = money - Integer.parseInt(moneyBet.getValue().toString());
@@ -380,6 +388,7 @@ public class BlackjackPanel extends JPanel {
 		moneyBet.setEnabled(false);
 		background.setVisible(false);
 		background.setEnabled(false);
+		loseIcon.setVisible(false);
 	}
 	
 	private void updateBoard() {
@@ -393,14 +402,12 @@ public class BlackjackPanel extends JPanel {
 				getResource("/blackjack/view/images/back.png")));
 		for (int h = 1; h < 2; h++) {
 			resource = blackjack.getHouseDeck().get(h).toFile();
-			System.out.println("House " + resource);
 			houseDeck.get(h).setIcon(new ImageIcon(getClass()
 					.getResource("/blackjack/view/images/" + resource)));
 		}
 		int test = 1;
 		for (int p = blackjack.getPlayerDeck().size() - 1; p > blackjack.getPlayerDeck().size() - 3; p--) {
 			resource = blackjack.getPlayerDeck().get(p).toFile();
-			System.out.println("Player " + resource);
 			playerDeck.get(test--).setIcon(new ImageIcon(getClass()
 					.getResource("/blackjack/view/images/" + resource)));
 		}
@@ -421,10 +428,6 @@ public class BlackjackPanel extends JPanel {
 				player = player - (10 * aceP);
 			}
 		playerScore.setText("Your score is: " + player);
-//		System.out.print(player + " ");
-//		for (int i = 0; i < blackjack.getPlayerDeck().size(); i++) {
-//			System.out.print(blackjack.getPlayerDeck().get(i).getScore() + " ");
-//		}
 		
 		house = 0;
 		int aceH = 0;
@@ -443,7 +446,15 @@ public class BlackjackPanel extends JPanel {
 	}
 	private void updateMoney() {
 		int money = Integer.parseInt(moneyAmount.getText());
-		if (money < 500) {
+		if (money == 0 && stand) {
+			loseIcon.setVisible(true);
+			loseIcon.setEnabled(true);
+		}
+		if (money == 0) {
+			moneyIcon.setIcon(new ImageIcon(getClass()
+					.getResource("/blackjack/view/images/no-money.png")));
+		}
+		if (money != 0 && money < 500) {
 			moneyIcon.setIcon(new ImageIcon(getClass()
 					.getResource("/blackjack/view/images/MoneyF1.png")));
 		}
@@ -483,11 +494,31 @@ public class BlackjackPanel extends JPanel {
 	private void updateResult() {
 		String result = resultLabel.getText();
 		int potNum = Integer.parseInt(pot.getText());
-//		System.out.println(potNum);
-		if (blackjack.getRound() == 0 && player == 21 && house != 21) {
+			int tempHouse = 0;
+			int aceH = 0;
+			for (int i = 0; i < blackjack.getHouseDeck().size(); i++) {
+				tempHouse += blackjack.getHouseDeck().get(i).getScore();
+			}
+			for (int i = 0; i < blackjack.getHouseDeck().size(); i++) {
+				if (blackjack.getHouseDeck().get(i).getNumber() == 1) {
+					aceH++;
+				}
+			}
+			if (tempHouse > 21) {
+				tempHouse = tempHouse - (10 * aceH);
+			}
+		if (blackjack.getRound() == 0 && player == 21 && tempHouse == 21) {
+			result = "Tie!";
+			stand = true;
+			runHouse();
+		} else if (blackjack.getRound() == 0 && player != 21 && tempHouse == 21) {
+			result = "Lose!";
+			stand = true;
+			runHouse();
+		} else if (blackjack.getRound() == 0 && player == 21 && tempHouse != 21) {
 			result = "Blackjack!";
 			stand = true;
-		} else if (blackjack.getRound() != 0 && player == 21 && house != 21) {
+		} else if (blackjack.getRound() != 0 && player == 21 && tempHouse != 21) {
 			result = "21!";
 			stand = true;
 		} else if (player <= 21 && player > house && stand) {
@@ -509,7 +540,7 @@ public class BlackjackPanel extends JPanel {
 		if (stand) {
 			if (result.equals("Bust!") || result.equals("Lose!")) {
 				potNum = 0;
-			} else if (result.equals("Win!") || result.equals("21!") || result.equals("House Bust")) {
+			} else if (result.equals("Win!") || result.equals("21!") || result.equals("House Bust!")) {
 				potNum = potNum * 2;
 			} else if (result.equals("Blackjack!")) {
 				potNum = potNum * 3;
@@ -517,6 +548,7 @@ public class BlackjackPanel extends JPanel {
 				
 			}
 			moneyAmount.setText(Integer.toString(Integer.parseInt(moneyAmount.getText()) + potNum));
+			updateMoney();
 			pot.setText("0");
 			nextHand.setVisible(true);
 			nextHand.setEnabled(true);
@@ -525,7 +557,6 @@ public class BlackjackPanel extends JPanel {
 		resultLabel.setText(result);
 		resultLabel.setVisible(true);
 		resultLabel.setEnabled(true);
-//		System.out.println(potNum);
 	}
 	
 	private void resetBoard() {
@@ -550,7 +581,7 @@ public class BlackjackPanel extends JPanel {
 	private void resetMoney() {
 		moneyIcon.setIcon(new ImageIcon(getClass()
 				.getResource("/blackjack/view/images/MoneyF1.png")));
-		moneyAmount.setText("100");;
+		moneyAmount.setText("300");;
 	}
 	
 	private void runHouse() {
@@ -571,38 +602,27 @@ public class BlackjackPanel extends JPanel {
 		while (house < 17) {
 			blackjack.getHouseDeck().add(blackjack.getDeck().get(0));
 			blackjack.getDeck().remove(0);
+			
+			house = 0;
+			aceH = 0;
 			for (int i = 0; i < blackjack.getHouseDeck().size(); i++) {
-				System.out.print("House " + blackjack.getHouseDeck().get(i).toFile() + " ");
+				house += blackjack.getHouseDeck().get(i).getScore();
 			}
-			System.out.println("");
-			updateBoard();
+			for (int i = 0; i < blackjack.getHouseDeck().size(); i++) {
+				if (blackjack.getHouseDeck().get(i).getNumber() == 1) {
+					aceH++;
+				}
+			}
+			if (house > 21) {
+				house = house - (10 * aceH);
+			}
+			houseScore.setText("House score is: " + house);
 		}
-		
 		int test = 1;
 		for (int h = blackjack.getHouseDeck().size() - 1; h > blackjack.getHouseDeck().size() - 3; h--) {
 			resource = blackjack.getHouseDeck().get(h).toFile();
-			System.out.println("House " + resource);
 			houseDeck.get(test--).setIcon(new ImageIcon(getClass()
 					.getResource("/blackjack/view/images/" + resource)));
 		}
-		
-		house = 0;
-		aceH = 0;
-		for (int i = 0; i < blackjack.getHouseDeck().size(); i++) {
-			house += blackjack.getHouseDeck().get(i).getScore();
-		}
-		for (int i = 0; i < blackjack.getHouseDeck().size(); i++) {
-			if (blackjack.getHouseDeck().get(i).getNumber() == 1) {
-				aceH++;
-			}
-		}
-		if (house > 21) {
-			house = house - (10 * aceH);
-		}
-		houseScore.setText("House score is: " + house);
-		for (int i = 0; i < blackjack.getHouseDeck().size(); i++) {
-			System.out.print("House " + blackjack.getHouseDeck().get(i).toFile() + " ");
-		}
-		System.out.println("");
 	}
 }
