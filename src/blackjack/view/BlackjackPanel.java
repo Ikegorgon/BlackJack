@@ -289,29 +289,6 @@ public class BlackjackPanel extends JPanel {
 				}
 			}
 		});
-		betButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent click) {
-				while (Integer.parseInt(moneyBet.getValue().toString()) > Integer.parseInt(moneyAmount.getText())) {
-					moneyBet.setValue(Integer.parseInt(moneyBet.getValue().toString()) - 1);
-				}
-				if (bet == 0) {
-					if (Integer.parseInt(moneyBet.getValue().toString()) > 0 
-							&& Integer.parseInt(moneyBet.getValue().toString()) <= 
-							Integer.parseInt(moneyAmount.getText())) {
-						pot.setText(moneyBet.getValue().toString());
-						int money = Integer.parseInt(moneyAmount.getText());
-						money = money - Integer.parseInt(moneyBet.getValue().toString());
-						moneyAmount.setText(Integer.toString(money));
-						bet++;
-						
-						blackjack.setupDeck();
-						blackjack.shuffleDeck();
-						blackjack.dealDeck();
-						updateBoard();
-					}
-				}
-			}
-		});
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent click) {
 				activate();
@@ -330,7 +307,37 @@ public class BlackjackPanel extends JPanel {
 				}
 			}
 		});
+		
+		//startComplexity
+		betButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent click) {
+				while (Integer.parseInt(moneyBet.getValue().toString()) > Integer.parseInt(moneyAmount.getText())) {
+					moneyBet.setValue(Integer.parseInt(moneyBet.getValue().toString()) - 1);
+				}
+				if (bet == 0) {
+					betMoney();
+				}
+			}
+		});
 	}
+	private void betMoney() {
+		if (Integer.parseInt(moneyBet.getValue().toString()) > 0 
+				&& Integer.parseInt(moneyBet.getValue().toString()) <= 
+				Integer.parseInt(moneyAmount.getText())) {
+			pot.setText(moneyBet.getValue().toString());
+			int money = Integer.parseInt(moneyAmount.getText());
+			money = money - Integer.parseInt(moneyBet.getValue().toString());
+			moneyAmount.setText(Integer.toString(money));
+			bet++;
+			
+			blackjack.setupDeck();
+			blackjack.shuffleDeck();
+			blackjack.dealDeck();
+			updateBoard();
+		}
+	}
+	//endComplexity
+	
 	private void activate() {
 		startButton.setVisible(false);
 		startButton.setEnabled(false);
@@ -410,6 +417,7 @@ public class BlackjackPanel extends JPanel {
 		loseIcon.setVisible(false);
 	}
 	
+	//startAbstraction
 	private void updateBoard() {
 		updateCards();
 		updateScore();
@@ -463,6 +471,8 @@ public class BlackjackPanel extends JPanel {
 		}
 		houseScore.setText("House score is: " + house);
 	}
+	//endAbstraction
+	
 	private void updateMoney() {
 		int money = Integer.parseInt(moneyAmount.getText());
 		if (money == 0 && stand) {
