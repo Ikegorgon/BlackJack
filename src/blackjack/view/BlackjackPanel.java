@@ -425,8 +425,8 @@ public class BlackjackPanel extends JPanel {
 		updateResult();
 	}
 	private void updateCards() {
-		houseDeck.get(0).setIcon(new ImageIcon(getClass().
-				getResource("/blackjack/view/images/back.png")));
+		houseDeck.get(0).setIcon(new ImageIcon(getClass()
+				.getResource("/blackjack/view/images/back.png")));
 		for (int h = 1; h < 2; h++) {
 			resource = blackjack.getHouseDeck().get(h).toFile();
 			houseDeck.get(h).setIcon(new ImageIcon(getClass()
