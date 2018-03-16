@@ -54,13 +54,13 @@ public class BlackjackPanel extends JPanel {
 		bet = 0;
 		stand = false;
 		lose = false;
+		setupLayout();
 		houseDeck = new ArrayList<JLabel>();
 		playerDeck = new ArrayList<JLabel>();
 		houseDeck.add(houseCard1);
 		houseDeck.add(houseCard2);
 		playerDeck.add(playerCard1);
 		playerDeck.add(playerCard2);	
-		setupLayout();
 		setupPanel();
 		setupListeners();
 	}
@@ -308,7 +308,7 @@ public class BlackjackPanel extends JPanel {
 			}
 		});
 		
-		//startComplexity
+//startComplexity
 		betButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent click) {
 				while (Integer.parseInt(moneyBet.getValue().toString()) > Integer.parseInt(moneyAmount.getText())) {
@@ -336,7 +336,7 @@ public class BlackjackPanel extends JPanel {
 			updateBoard();
 		}
 	}
-	//endComplexity
+//endComplexity
 	
 	private void activate() {
 		startButton.setVisible(false);
@@ -417,7 +417,7 @@ public class BlackjackPanel extends JPanel {
 		loseIcon.setVisible(false);
 	}
 	
-	//startAbstraction
+//startAbstraction
 	private void updateBoard() {
 		updateCards();
 		updateScore();
@@ -426,7 +426,7 @@ public class BlackjackPanel extends JPanel {
 	}
 	private void updateCards() {
 		houseDeck.get(0).setIcon(new ImageIcon(getClass()
-				.getResource("/blackjack/view/images/back.png")));
+				.getResource("/blackjack/view/images/Back.png")));
 		for (int h = 1; h < 2; h++) {
 			resource = blackjack.getHouseDeck().get(h).toFile();
 			houseDeck.get(h).setIcon(new ImageIcon(getClass()
@@ -471,7 +471,7 @@ public class BlackjackPanel extends JPanel {
 		}
 		houseScore.setText("House score is: " + house);
 	}
-	//endAbstraction
+//endAbstraction
 	
 	private void updateMoney() {
 		int money = Integer.parseInt(moneyAmount.getText());
