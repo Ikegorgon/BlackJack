@@ -605,6 +605,7 @@ public class BlackjackPanel extends JPanel {
 		resultLabel.setText("");;
 		bet = 0;
 		stand = false;
+		lose = false;
 		resultLabel.setVisible(false);
 		resultLabel.setEnabled(false);
 	}
