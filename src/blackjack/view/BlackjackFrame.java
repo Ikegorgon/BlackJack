@@ -1,6 +1,7 @@
 package blackjack.view;
 
 import blackjack.controller.*;
+import java.awt.*;
 import javax.swing.*;
 
 public class BlackjackFrame extends JFrame {
@@ -23,6 +24,9 @@ public class BlackjackFrame extends JFrame {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
+		this.setName("Blackjack");
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass()
+				.getResource("/blackjack/view/images/blackjackIcon.png")));
 	}
 	public BlackjackController getController() {
 		return app;
