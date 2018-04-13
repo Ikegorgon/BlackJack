@@ -427,7 +427,7 @@ public class BlackjackPanel extends JPanel {
 	}
 	private void updateCards() {
 		houseDeck.get(0).setIcon(new ImageIcon(getClass()
-				.getResource("/blackjack/view/images/Back.png")));
+				.getResource("/blackjack/view/images/back.png")));
 		for (int h = 1; h < 2; h++) {
 			resource = blackjack.getHouseDeck().get(h).toFile();
 			houseDeck.get(h).setIcon(new ImageIcon(getClass()
@@ -594,13 +594,13 @@ public class BlackjackPanel extends JPanel {
 		playerScore.setText("Your score is: ");;
 		houseScore.setText("House score is: ");;
 		houseCard1.setIcon(new ImageIcon(getClass()
-				.getResource("/blackjack/view/images/Back.png")));
+				.getResource("/blackjack/view/images/back.png")));
 		houseCard2.setIcon(new ImageIcon(getClass()
-				.getResource("/blackjack/view/images/Back.png")));
+				.getResource("/blackjack/view/images/back.png")));
 		playerCard1.setIcon(new ImageIcon(getClass()
-				.getResource("/blackjack/view/images/Back.png")));
+				.getResource("/blackjack/view/images/back.png")));
 		playerCard2.setIcon(new ImageIcon(getClass()
-				.getResource("/blackjack/view/images/Back.png")));
+				.getResource("/blackjack/view/images/back.png")));
 		pot.setText("0");;
 		moneyBet.setValue(0);
 		resultLabel.setText("");;
