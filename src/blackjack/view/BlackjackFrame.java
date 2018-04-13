@@ -15,7 +15,7 @@ public class BlackjackFrame extends JFrame {
 		setupFrame();
 	}
 	public BlackjackFrame() {
-		
+		 
 	}
 	private void setupFrame() {
 		this.setContentPane(appPanel);
