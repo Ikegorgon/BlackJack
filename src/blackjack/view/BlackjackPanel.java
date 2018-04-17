@@ -11,6 +11,7 @@ import java.awt.event.*;
 import javax.swing.border.*;
 
 public class BlackjackPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
 	private BlackjackController app;
 	private BlackjackFrame frame;
 	private Blackjack blackjack;
@@ -656,5 +657,11 @@ public class BlackjackPanel extends JPanel {
 			houseDeck.get(test--).setIcon(new ImageIcon(getClass()
 					.getResource("/blackjack/view/images/" + resource)));
 		}
+	}
+	public BlackjackController getController() {
+		return app;
+	}
+	public BlackjackFrame getFrame() {
+		return frame;
 	}
 }
